@@ -18,28 +18,18 @@ function structure($data){
     return $code;
   }
   
-function  draw_input($name,$values='',$width='100%',$height=380,$hidden=0)
+function ckeditor($name , $values='')
 {
-	
-		include_once(BASEPATH."fckeditor/fckeditor.php") ;
-		require_once(BASEPATH."/ckfinder/ckfinder.php");
-		
-		//$oFCKeditor->BasePath = BASEPATH."/fckeditor/"  ;
-		$oFCKeditor = new FCKeditor($name) ;
-		$oFCKeditor->IncludeLatinEntities = false ;
-		$oFCKeditor->Config['SkinPath']=BASEPATH."fckeditor/editor/skins/default/"; 
-		$oFCKeditor->Config['ToolbarLocation'] = 'Out:xToolbar' ;
-		$oFCKeditor->Width =$width;
-		$oFCKeditor->Height=$height;
-		$oFCKeditor->Value= stripslashes($values);
-		$oFCKeditor->Config['ImageUpload'] = false;
-		$oFCKeditor->config['filebrowserBrowseUrl']='';
-		$oFCKeditor->config['filebrowserImageBrowseUrl']='';
-		$oFCKeditor->config['filebrowserFlashBrowseUrl']='';
-		
-		
-		CKFinder::SetupFCKeditor( $oFCKeditor, BASEPATH.'ckfinder/' ) ;
-		$oFCKeditor->Create() ;
+	echo'<textarea name="'.$name.'" id="'.$name.'">&lt;p&gt;Initial editor content.&lt;/p&gt;</textarea>';
+	echo"<script>
+    CKEDITOR.replace( '".$name."', {
+    filebrowserBrowseUrl: '../../ckfinder/ckfinder.html',
+    filebrowserUploadUrl: '../../ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+    filebrowserWindowWidth: '1000',
+    filebrowserWindowHeight: '700'
+} );
+	CKEDITOR.instances.editor1.setData('".$values."');
+    </script>";
 }
 
 function FixQuotes ($what = "") {

@@ -2,15 +2,15 @@
 echo'<div class="col-lg-12 col-md-12">';
 echo'<div class="panel panel-white">';
 echo'	<div class="panel-heading">
-		<h4 class="panel-title">ADD PRODUCTS&nbsp;</h4>
+		<h4 class="panel-title">THÊM DANH MỤC</h4>
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive project-stats">
-			<form action="'.base_url().'index.php/product/categories_save" method="post" enctype="multipart/form-data">
+			<form action="'.base_url().'admin.php/product/categories_save" method="post" enctype="multipart/form-data">
 						<table class="table" cellspacing="10">
 						<tbody>
 						<tr><td>Mã danh mục:</td><td><input type="text" name="mva" class="form-control"></td></tr>
-						<tr><td>Tiêu đề:</td><td><input type="hidden" name="cid"><input type="text" name="title" class="form-control"></td></tr>
+						<tr><td>Tiêu đề:</td><td><input type="text" name="title" class="form-control"></td></tr>
 						<tr><td>Thuộc chủ đề:</td><td>'.$acatgories.'</td></tr>
 						<tr><td>Hình đại diện</td><td><input type="file" name="cpic" size="20" /></td></tr>
 						<tr><td>Icon</td><td><input type="file" name="icon" size="20" /></td></tr>
@@ -18,16 +18,8 @@ echo'	<div class="panel-heading">
 						<tr><td>metaKeywords</td><td><input type="text" name="metaKeywords" class="form-control" /></td></tr>
 						<tr><td>metaDescription</td><td><input type="text" name="metaDescription" class="form-control" /></td></tr>
 						<tr><td colspan="2">
-						<textarea name="editor1" id="editor1">&lt;p&gt;Initial editor content.&lt;/p&gt;</textarea>';
-            echo"<script>
-                CKEDITOR.replace( 'editor1', {
-    filebrowserBrowseUrl: '../../ckfinder/ckfinder.html',
-    filebrowserUploadUrl: '../../ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-    filebrowserWindowWidth: '1000',
-    filebrowserWindowHeight: '700'
-} );
-				CKEDITOR.instances.editor1.setData('Con cặc');
-            </script>";
+						';
+            ckeditor('description' , $values='');
 			echo'</td></tr>
 						<tr><td colspan="2"><input type="submit" value="Save" class="btn btn-success">&nbsp;<a href="'.base_url().'admin.php/product/categories"><input class="btn btn-success" value="Cancel"></a></td></tr>';
 						

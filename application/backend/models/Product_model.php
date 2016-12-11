@@ -1,9 +1,8 @@
 <?php
 class Product_model extends CI_Model{
 
-    private $_shop = "view_shop";
-	private $_shop_categories = "view_shop_categories";
-	private $_shop_categories_language = "shop_categories_language";
+    private $_shop = "shop";
+	private $_shop_categories = "shop_categories";
 	private $_shop_module = "shop_module";
 	private $_shop_order = "shop_orders";
 	private $_shop_usercat = "shop_usercat";
@@ -239,18 +238,13 @@ class Product_model extends CI_Model{
             $this->db->select_max('cid');
 			$query = $this->db->get($this->_shop_categories);
 			$data = $query->result_array();
-			return $data[0]['cid'];
+			//return $data[0]['cid'];
+			return TRUE;
 		}
         else
 		{
             return FALSE;
 		}
-    }
-	function addCategoriesLanguage($data){
-        if($this->db->insert($this->_shop_categories_language,$data))
-			return TRUE;
-        else
-            return FALSE;
     }
 }
 ?>

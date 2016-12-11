@@ -61,6 +61,65 @@ class GLOBAL_Model extends CI_Model{
 		$ci->linguaid = $this->linguaid();
 	}
 	
+	function uploadimagesingle($sname , $path="", $width=700, $height=850, $newname, $dimages="")
+	{
+		date_default_timezone_set('Asia/Saigon');
+		if ($dimages == "yes") {
+			@unlink($path."/".$newname."");
+			$newname = "";
+		}
+		
+		if($_FILES[$sname]['name'])
+		{
+				$realname = $_FILES[$sname]['name'];	
+				$f_name = explode(".",$realname);
+				$extension = strtolower($f_name[1]);
+				$datakod = date('U');
+				$newname = "".$datakod.".".$extension."";
+		
+		
+				$config['upload_path']          = $path;
+                $config['allowed_types']        = 'gif|jpg|png|jpeg|GIF|JPG|PNG|JPEG';
+				$config['file_name'] 			= $newname;
+                //$config['max_size']             = 100;
+                $config['max_width']            = 1424;
+                $config['max_height']           = 1424;
+
+				
+				$this->load->library('upload', $config);
+				$this->upload->initialize($config);
+
+                if ( ! $this->upload->do_upload())
+                {
+                        $error = array('error' => $this->upload->display_errors());
+						$newname="";
+
+                        //$this->load->view('upload_form', $error);
+                }
+                else
+                {
+                        $data = array('upload_data' => $this->upload->data());
+						$newname =  $this->upload->file_name;
+						//Image Resizing
+						$config['source_image'] = $this->upload->upload_path.$this->upload->file_name;
+						$config['maintain_ratio'] = FALSE;
+						$config['width'] = $width;
+						$config['height'] = $height;
+				
+						$this->load->library('image_lib', $config);
+				
+						if ( ! $this->image_lib->resize()){
+							$error = array('error' => $this->image_lib->display_errors());
+							$newname="";
+						}else{
+							$newname = $newname;
+						}
+                        //$this->load->view('upload_success', $data);
+                }
+		}
+		return $newname;
+	}
+	
 	function uploadimage($path="", $width=700, $height=850, $newname, $dimages="")
 	{
 		date_default_timezone_set('Asia/Saigon');
@@ -68,9 +127,7 @@ class GLOBAL_Model extends CI_Model{
 			@unlink($path."/".$newname."");
 			$newname = "";
 		}
-		print_r($_FILES);
 		
-
 		if($_FILES['userfile']['name'])
 		{
 				$realname = $_FILES['userfile']['name'];	

@@ -26,6 +26,7 @@ echo'	<div class="panel-heading">
 				<th>Title</th>
 				<th>Thứ tự</th>
 				<th>Active</th>
+				<th>Home</th>
                 <th>Nội dung</th>
 				<th>Hình đại diện</th>
 				<th>Icon</th>
@@ -42,6 +43,7 @@ echo'	<div class="panel-heading">
 		echo'<tr>
 				<th scope="row">'.$i.'</th>
 				<td><b>'.$item['title'].'</b></td>
+				<td></td>
 				<td></td>
 				<td></td>
 				<td><button type="button" data-toggle="modal" data-target="#shop_category_edit'.$item['cid'].'"><i class="fa fa-edit"></i></button>

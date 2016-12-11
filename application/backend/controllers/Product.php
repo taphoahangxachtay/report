@@ -433,36 +433,41 @@ class Product extends CI_Controller
   
   public function categories_save()
   {
-	  
+	  $cpic= "";
+	  $icon= "";
+		if($_FILES['cpic']['name']!=null){
+	 		$cpic = $this->Global_Model->uploadimagesingle('cpic',FCPATH.'uploads/gallery/', 200, 100, $cpic);
+	 	}
+		if($_FILES['icon']['name']!=null){
+	 		$icon = $this->Global_Model->uploadimagesingle('icon',FCPATH.'uploads/modules/categories/', 200, 100, $icon);
+	 	}
+	  $mva		= 	$this->input->post('mva');
 	  $title 	=	$this->input->post('title');
-	  $parentid = 	$this->input->post("parentid");
+	  $pid 		= 	$this->input->post('pid');
+	  $metaTitle= 	$this->input->post('metaTitle');
+	  $metaKeywords	= $this->input->post('metaKeywords');
+	  $metaDescription= $this->input->post('metaDescription');
+	  $description = htmlentities($this->input->post('description'));
 
-	  //$langid	=	$this->input->post("language");
-	  $langid 	= 	$this->Global_Model->linguaid();
-	  $images	=	"";
-	  $images 	= 	$this->Global_Model->uploadimage('../uploads/modules/shop/',700,850,$images);
-	 
 		$input_data= array(	
-			"parentid" 	=> $parentid,
-			"cat_pic" 	=> $images,
-			"active" 	=> 0,
-			"mid" 		=> 1,
+			"mva" 				=> $mva,
+			"title" 			=> $title,
+			"pid" 				=> $pid,
+			"cpic"				=> $cpic,
+			"icon"				=> $icon,
+			"metaTitle" 		=> $metaTitle,
+			"metaKeywords" 		=> $metaKeywords,
+			"metaDescription" 	=> $metaDescription,
+			"description"		=> $description
 		);
-		$next = $this->Product_model->addCategories($input_data);
 
-		$input_data_extend= array(	
-			"cid" 			=> 	$next,
-			"title"			=>	$title,
-			"lang_id" 		=> 	$langid
-		);
-		if($this->Product_model->addCategoriesLanguage($input_data_extend))
+		if($this->Product_model->addCategories($input_data))
 		{
-			redirect(base_url()."index.php/product/categories");
+			redirect(base_url()."admin.php/product/categories");
 		}
 		else
 		{
-			//Lỗi
-			redirect(base_url()."index.php/product/categories");
+			redirect(base_url()."admin.php/product/categories");
 		}
   }		
 }
