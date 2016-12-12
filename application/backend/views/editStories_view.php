@@ -1,10 +1,10 @@
 <?php
-$lang = $this->Global_Model->lingua();
-$sid	 	= $stories['sid'];
-$images 	= $stories['images'];
-$title 		= $stories['title'];
-$hometext 	= $stories['hometext'];
-$bodytext 	= $stories['bodytext'];
+
+$sid	 	= $stories->sid;
+$images 	= $stories->images;
+$title 		= $stories->title;
+$hometext 	= $stories->hometext;
+$bodytext 	= $stories->bodytext;
 
 echo'<div class="col-lg-12 col-md-12">';
 echo'<div class="panel panel-white">';
@@ -15,7 +15,7 @@ echo'	<div class="panel-heading">
 	echo'<div class="table-responsive project-stats"> ';
 	
 	
-echo"<form  action=\"".base_url()."index.php/news/saveeditstories/".$sid."\" method=\"post\" name=\"adminForm\" id=\"adminForm\" enctype=\"multipart/form-data\">";
+echo"<form  action=\"".base_url()."admin.php/news/saveeditstories/".$sid."\" method=\"post\" name=\"adminForm\" id=\"adminForm\" enctype=\"multipart/form-data\">";
 echo"<input type=\"hidden\" name=\"author\" value=\"\"/>";	
 echo"<input type=\"hidden\" name=\"source\" value=\"\"/>";	
 echo"<table class=\"table\">";
@@ -28,9 +28,7 @@ echo"</td></tr>";
 echo"<tr><td><b>Thuộc chủ đề:</b>";
 	echo $show_edit_stories_section;
 	echo $select_categories;
-echo"</td><td><b>Ngôn ngữ:</b>";
-	echo $select_language;
-echo"</td></tr>";
+echo"</td> </tr>";
 
 echo"<tr><td>";
 	echo $select_topic;
@@ -48,10 +46,10 @@ echo"<tr><td colspan=\"2\">";
 	echo'<div id="xToolbar"></div>';
 echo"</td></tr>";
 echo"<tr><td colspan=\"2\">";
-	draw_input("hometext",$hometext,"100%",200);
+	ckeditor("hometext",$hometext);
 echo"</td></tr>";
 echo"<tr><td colspan=\"2\">";
-	draw_input("bodytext",$bodytext);
+	ckeditor("bodytext",$bodytext);
 echo"</td></tr>";
 
 echo"<tr><td colspan=\"2\">";

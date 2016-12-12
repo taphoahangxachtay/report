@@ -31,10 +31,11 @@ class News extends CI_Controller
 
   public function index(){
 		//If the user is validated, then this function will run
-		if(!empty($this->session->userdata['aid']))
+		$admin =$this->session->userdata('admin');
+		if(isset($admin['aid']))
 		{
 			//set page
-			$Au = $this->Auth_model->getInfo($this->session->userdata['aid']);
+			$Au = $this->Auth_model->getInfo($this->session->userdata['admin']['aid']);
 			$data['l'] = $Au;
 			$data['p'] = array ( 'Home' => base_url(), 'News' => '#');
 			
@@ -45,7 +46,7 @@ class News extends CI_Controller
 			if($max!=0){
 				
 				$this->load->library('pagination');
-				$config['base_url'] = base_url()."index.php/news/index";
+				$config['base_url'] = base_url()."admin.php/news/index";
 				$config['total_rows'] = $max;
 				$config['per_page'] = $min;
 				$config['num_link'] = 3; 
@@ -81,17 +82,18 @@ class News extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url()."index.php/dashboard");
+			redirect(base_url()."admin.php/dashboard");
 		}
   }
   
   public function specialcat()
   {
 		
-		if(!empty($this->session->userdata['aid']))
+		$admin =$this->session->userdata('admin');
+		if(isset($admin['aid']))
 		{
 			//set page
-			$Au = $this->Auth_model->getInfo($this->session->userdata['aid']);
+			$Au = $this->Auth_model->getInfo($admin['aid']);
 			$data['l'] = $Au;
 			$data['p'] = array ( 'Home' => base_url(), 'Shop' => '#');
 			
@@ -101,7 +103,7 @@ class News extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url()."index.php/dashboard");
+			redirect(base_url()."admin.php/dashboard");
 		}
 		
   }
@@ -117,7 +119,7 @@ class News extends CI_Controller
 		
 		if($this->News_model->addTopic($input_data))
 		{
-			redirect(base_url()."index.php/news/specialcat");
+			redirect(base_url()."admin.php/news/specialcat");
 		}
 		else
 		{
@@ -132,22 +134,23 @@ class News extends CI_Controller
 		
 		if($this->News_model->deleteTopic($topicid))
 		{
-			redirect(base_url()."index.php/news/specialcat");
+			redirect(base_url()."admin.php/news/specialcat");
 		}
 		else
 		{
 			//Lỗi
-			redirect(base_url()."index.php/news/specialcat");
+			redirect(base_url()."admin.php/news/specialcat");
 		}
   }
   
   
   public function edittopic()
   {
-	  	if(!empty($this->session->userdata['aid']))
+	  	$admin =$this->session->userdata('admin');
+		if(isset($admin['aid']))
 		{
 			//set page
-			$Au = $this->Auth_model->getInfo($this->session->userdata['aid']);
+			$Au = $this->Auth_model->getInfo($admin['aid']);
 			$data['l'] = $Au;
 			$data['p'] = array ( 'Home' => base_url(), 'News' => '#');
 			
@@ -159,7 +162,7 @@ class News extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url()."index.php/dashboard");
+			redirect(base_url()."admin.php/dashboard");
 		}
 	  	
   }
@@ -189,9 +192,9 @@ class News extends CI_Controller
 	   	$ap = $this->input->post('dall');
 	 
 	  	if($this->News_model->deleteTopicMulti($ap))
-	  		redirect(base_url()."index.php/news/specialcat");
+	  		redirect(base_url()."admin.php/news/specialcat");
 		else
-			redirect(base_url()."index.php/news/specialcat");
+			redirect(base_url()."admin.php/news/specialcat");
   }
 	
   /***************************************************************************
@@ -219,7 +222,7 @@ class News extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url()."index.php/dashboard");
+			redirect(base_url()."admin.php/dashboard");
 		}
 		
   }
@@ -251,9 +254,9 @@ class News extends CI_Controller
 		$result = $this->News_model->addNewsCategoriesLang($input_data_extend);
 		if($result)
 		{
-			 redirect(base_url()."index.php/news/categories");
+			 redirect(base_url()."admin.php/news/categories");
 		}
-		redirect(base_url()."index.php/news/categories");
+		redirect(base_url()."admin.php/news/categories");
   }
   
   public function deletenewscategories(){
@@ -270,7 +273,7 @@ class News extends CI_Controller
 		else
 		{
 			//Lỗi
-			redirect(base_url()."index.php/news/categories");
+			redirect(base_url()."admin.php/news/categories");
 		}
 	  
   }
@@ -302,7 +305,7 @@ class News extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url()."index.php/dashboard");
+			redirect(base_url()."admin.php/dashboard");
 		}
 	  
   }
@@ -331,7 +334,7 @@ class News extends CI_Controller
 			}	
 		
 		}
-	 	redirect(base_url()."index.php/news/categories");
+	 	redirect(base_url()."admin.php/news/categories");
   }
   
   public function setweightcategories(){
@@ -514,15 +517,19 @@ class News extends CI_Controller
 			$string.="sectioncategories[$i] = new Array( '$mid','0','Chủ đề chính','0' ); \n\n";
 			$i++;
 			$row = $this->News_model->getNewsCategories($mid);
-			foreach($row as $r)
-			{
-				$mid=$r['mid'];
-				$catid=$r['catid'];
-				$title=$r['title'];
-				$pid=$r['parentid'];
-				
-				$string.="sectioncategories[$i] = new Array( '$mid','$catid','$title','$pid' ); \n\n";
-				$i++;
+		
+			if(count($row)) {
+    			foreach($row as $r)
+    			{
+    				$mid=$r['mid'];
+    				$catid=$r['catid'];
+    				$title=$r['title'];
+    				$pid=$r['parentid'];
+    				
+    				$string.="sectioncategories[$i] = new Array( '$mid','$catid','$title','$pid' ); \n\n";
+    				$i++;
+    			}
+			    
 			}
 	  	}
 	 	
@@ -533,6 +540,7 @@ class News extends CI_Controller
 		<option value="-1" >- Select Section -</option>';
         
         $result = $this->News_model->getSection();
+        
         foreach($result as $row) {
 			if($row['mid']==$id)
 		  		$string.="<option value=\"".$row['mid']."\" selected=\"selected\">".$row['title']."</option>";
@@ -744,10 +752,12 @@ class News extends CI_Controller
 	***************************************************************************/
 	public function addStories()
 	{
-		if(!empty($this->session->userdata['aid']))
-		{
+		    $admin =$this->session->userdata('admin');
+        
+    		if(isset($admin['aid']))
+    		{
 			//set page
-			$Au = $this->Auth_model->getInfo($this->session->userdata['aid']);
+			$Au = $this->Auth_model->getInfo($admin['aid']);
 			$data['l'] = $Au;
 			$data['p'] = array ( 'Home' => base_url(), 'News' => '#');
 			
@@ -755,7 +765,7 @@ class News extends CI_Controller
 			$data['show_stories_section'] = $this->show_stories_section();
 			$data['select_topic'] = $this->select_topic(0);
 			$data['put_home'] = $this->put_home(1, 0);
-			$data['select_language'] = $this->select_language(1);
+		
 			
 			
 			$data['display_stories_category'] = $this->display_stories_category();
@@ -765,7 +775,7 @@ class News extends CI_Controller
 		}
 		else
 		{
-			redirect(base_url()."index.php/dashboard");
+			redirect(base_url()."admin.php/dashboard");
 		}
 	}
 	
@@ -780,7 +790,7 @@ class News extends CI_Controller
 		$ihome 			= $this->input->post('ihome');
 		$sectionid 		= $this->input->post('sectionid');
 		$catid	 		= $this->input->post('catid');
-		$lang	 		= $this->input->post('language');
+	
 		$topicid 		= $this->input->post('topicid');
 		
 		
@@ -788,7 +798,7 @@ class News extends CI_Controller
 	  	$images 	= 	$this->Global_Model->uploadimage('../uploads/modules/news/',700,850,$images);
 		$input_data= array(	
 		"sid" 			=> 	NULL,
-		"catid" 		=> 	$catid,
+		"catid" 		=> (int)	$catid,
 		"aid" 			=> 	$author,
 		"title" 		=> 	$subject,
 		"time" 			=>	time()	,
@@ -798,23 +808,23 @@ class News extends CI_Controller
 		"comments" 		=> 	0,	
 		"counter" 		=> 	0,
 		"notes" 		=> 	"",
-		"ihome" 		=> 	$ihome,
-		"alanguage" 	=> 	$lang,
+		"ihome" 		=> (int)	$ihome,
+		"alanguage" 	=> 	'vietnamese',
 		"acomm" 		=> 	0,
 		"imgtext" 		=> 	0,
 		"source" 		=> 	$source,
-		"topicid" 		=> 	$topicid,
+		"topicid" 		=> 	(int)$topicid,
 		"newsst"		=>  0
 		);
 		
 		if($this->News_model->addStories($input_data))
 		{
-			redirect(base_url()."index.php/news/index");
+			redirect(base_url()."admin.php/news/index");
 		}
 		else
 		{
 			//Lỗi
-			redirect(base_url()."index.php/news/index");
+			redirect(base_url()."admin.php/news/index");
 		}
   
 	}
@@ -833,7 +843,7 @@ class News extends CI_Controller
 	
 		if($this->News_model->deleteStories($sid)){
 	
-			redirect(base_url()."index.php/news/index");
+			redirect(base_url()."admin.php/news/index");
 		}
 		else
 		{
@@ -864,24 +874,27 @@ class News extends CI_Controller
 	
 	public function editstories()
 	{
-		if(!empty($this->session->userdata['aid']))
-		{
+        
+        	$admin =$this->session->userdata('admin');
+        
+    		if(isset($admin['aid']))
+    		{
 			//set page
-			$Au = $this->Auth_model->getInfo($this->session->userdata['aid']);
+			$Au = $this->Auth_model->getInfo($admin['aid']);
 			$data['l'] = $Au;
 			$data['p'] = array ( 'Home' => base_url(), 'News' => '#');
 			
 			//code here
 			$sid = $this->uri->segment(3,0);
-			$result = $this->News_model->getStories($sid);
-			$row = $result[0];
-			$catid = $row['catid'];
-			$ihome = $row['ihome'];
-			$selang = $row['alanguage'];
-			$topicid = $row['topicid'];
-			$cat = $this->News_model->getCategories($catid);
-			if(sizeof($cat)){
-			$mid = $cat[0]['mid'];
+			$row = $this->News_model->getOne($sid);
+			
+			$catid = $row->catid;
+			$ihome = $row->ihome;
+			$selang = $row->alanguage;
+			$topicid = $row->topicid;
+			$cat = $this->News_model->getCategoryOne($catid);
+			if(count($cat)){
+			$mid = $cat->mid;
 			}else{
 			$mid=0;
 			}
@@ -910,47 +923,37 @@ class News extends CI_Controller
 			$dimages=(int) $this->input->post('delimg');
 			$sid = $this->uri->segment(3,0);
 			$stories = $this->News_model->getStories($sid);
-		
+		    $input_data= array(	
+				"catid" 		=> 	$this->input->post('catid'),
+				"title" 		=> 	$this->input->post('subject'),
+				"time" 			=>	time()	,
+				"hometext" 		=> 	$this->input->post('hometext'),
+				"bodytext" 		=> 	$this->input->post('bodytext'),
+				"ihome" 		=> 	$this->input->post('ihome'),
+				"alanguage" 	=> 	$this->input->post('language'),
+				"topicid" 		=> 	$this->input->post('topicid')
+				);
+				
 			if($dimages || $stories[0]['images']=="")
 			{
 				
 				$images="";
 				$images = $this->Global_Model->uploadimage('../uploads/modules/news/',700,850,$stories[0]['images'],'yes');
 				
-				$input_data= array(	
-				"catid" 		=> 	$this->input->post('catid'),
-				"title" 		=> 	$this->input->post('subject'),
-				"time" 			=>	time()	,
-				"hometext" 		=> 	$this->input->post('hometext'),
-				"bodytext" 		=> 	$this->input->post('bodytext'),
-				"images" 		=>	$images,
-				"ihome" 		=> 	$this->input->post('ihome'),
-				"alanguage" 	=> 	$this->input->post('language'),
-				"topicid" 		=> 	$this->input->post('topicid')
-				);
+				$input_data["images"]=	$images;
+				
 			}
-			else
-			{
-				$input_data= array(	
-				"catid" 		=> 	$this->input->post('catid'),
-				"title" 		=> 	$this->input->post('subject'),
-				"time" 			=>	time()	,
-				"hometext" 		=> 	$this->input->post('hometext'),
-				"bodytext" 		=> 	$this->input->post('bodytext'),
-				"ihome" 		=> 	$this->input->post('ihome'),
-				"alanguage" 	=> 	$this->input->post('language'),
-				"topicid" 		=> 	$this->input->post('topicid')
-				);
-			}
+		    
 			
 			if($this->News_model->updateStories($input_data,$sid))
 			{
-				redirect(base_url()."index.php/news/index");
+				
+				redirect(base_url()."admin.php/news/index");
 			}
 			else
 			{
 				//Lỗi
-				redirect(base_url()."index.php/news/index");
+				redirect(base_url()."admin.php/news/index");
 			}
 	  }
 }

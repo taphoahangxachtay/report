@@ -9,7 +9,7 @@ echo'	<div class="panel-heading">
 	echo'<div class="table-responsive project-stats"> ';
 	
 	
-echo"<form  action=\"".base_url()."index.php/news/saveStories\" method=\"post\" name=\"adminForm\" id=\"adminForm\" enctype=\"multipart/form-data\">";
+echo"<form  action=\"".base_url()."admin.php/news/saveStories\" method=\"post\" name=\"adminForm\" id=\"adminForm\" enctype=\"multipart/form-data\">";
 echo"<input type=\"hidden\" name=\"author\" value=\"\"/>";	
 echo"<input type=\"hidden\" name=\"source\" value=\"\"/>";	
 echo"<table class=\"table\">";
@@ -21,8 +21,6 @@ echo"</td></tr>";
 
 echo"<tr><td><b>Thuộc chủ đề:</b>";
 	echo $show_stories_section;
-echo"</td><td><b>Ngôn ngữ:</b>";
-	echo $select_language;
 echo"</td></tr>";
 
 echo"<tr><td>";
@@ -35,10 +33,11 @@ echo"<tr><td colspan=\"2\">";
 	echo'<div id="xToolbar"></div>';
 echo"</td></tr>";
 echo"<tr><td colspan=\"2\">";
-	draw_input("hometext","","100%",200);
+ckeditor("hometext",'');
 echo"</td></tr>";
 echo"<tr><td colspan=\"2\">";
-	draw_input("bodytext");
+	
+	ckeditor("bodytext",'');
 echo"</td></tr>";
 
 echo"<tr><td colspan=\"2\">";

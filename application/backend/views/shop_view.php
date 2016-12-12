@@ -12,12 +12,12 @@ echo'	<div class="panel-heading">
 	echo'<div class="table-responsive project-stats"> ';
 	echo'<div class="text-right" colspan="5">
 		<a class="btn btn-default m-r-sm" data-toggle="tooltip" data-placement="top" title="Refresh"><i class="fa fa-refresh"></i></a>
-		<a class="btn btn-default m-r-sm" data-toggle="tooltip" data-placement="top" title="Add" href="'.base_url().'index.php/product/ap"><i class="fa fa-plus"></i></a>
+		<a class="btn btn-default m-r-sm" data-toggle="tooltip" data-placement="top" title="Add" href="'.base_url().'admin.php/product/ap"><i class="fa fa-plus"></i></a>
 		<div class="btn-group m-r-sm mail-hidden-options">
 			<a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Delete" id="adap"><i class="fa fa-trash"></i></a>
 		</div>
     </div>';
-	echo'<form method="post" id="fdap" action="'.base_url().'index.php/product/dap" enctype="multipart/form-data">';
+	echo'<form method="post" id="fdap" action="'.base_url().'admin.php/product/dap" enctype="multipart/form-data">';
 	echo'<table class="table">';
 	echo'	<thead>
 			<tr>
@@ -33,10 +33,10 @@ echo'	<div class="panel-heading">
 				<th scope=\"row\"><span><input name=\"dall[]\" value=\"".$item['pid']."\" type=\"checkbox\" class=\"checkbox-mail\"></span>".$item['pid']."</th>
 				<td>".$item['title']."</td>
 				<td>
-				<a href=\"".base_url()."index.php/product/ep/".$item['pid']."\"><i class=\"fa fa-edit\"></i></a>
+				<a href=\"".base_url()."admin.php/product/ep/".$item['pid']."\"><i class=\"fa fa-edit\"></i></a>
 				<a href=\"#\" onclick=\"myFunction('".$item['pid']."')\"><i class=\"fa fa-trash\"></i></a>
 				<div id=\"".$item['pid']."\" style=\"display:none\">
-				Bạn có muốn xóa sản phẩm này: <a class=\"waves-effect waves-button waves-classic\" href=\"".base_url()."index.php/product/dp/".$item['pid']."\"> Yes</a> - <a class=\"waves-effect waves-button waves-classic\" href=\"#\" onclick=\"myFunctionClose('".$item['pid']."')\"> No </a>
+				Bạn có muốn xóa sản phẩm này: <a class=\"waves-effect waves-button waves-classic\" href=\"".base_url()."admin.php/product/dp/".$item['pid']."\"> Yes</a> - <a class=\"waves-effect waves-button waves-classic\" href=\"#\" onclick=\"myFunctionClose('".$item['pid']."')\"> No </a>
 				</div>
 			
 				</td>

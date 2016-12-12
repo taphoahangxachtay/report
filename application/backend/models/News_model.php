@@ -95,9 +95,7 @@ class News_model extends CI_Model{
 		$this->db->select('*');
         $this->db->from(''.$this->_stories_categories.' as s');
 		$this->db->where('s.mid='.$mid);
-		$this->db->order_by("s.parentid","asc");
-		$this->db->order_by("s.weight","asc");
-		$this->db->order_by("s.catid","asc");
+	
         $query = $this->db->get();
         $data = $query->result_array();
         return $data;
@@ -146,6 +144,18 @@ class News_model extends CI_Model{
 		$this->db->order_by("s.catid","asc");
         $query = $this->db->get();
         $data = $query->result_array();
+        return $data;
+	}
+	
+	function getCategoryOne($catid=0){
+		
+		
+		
+		$this->db->select('*');
+        $this->db->from(''.$this->_stories_categories.' as s');
+		$this->db->where('s.catid='.$catid);
+		$query = $this->db->get();
+        $data = $query->row();
         return $data;
 	}
 	
@@ -239,7 +249,7 @@ class News_model extends CI_Model{
 		
 		
 		
-		$this->db->distinct('b.mid as mid');
+	
 		$this->db->select('b.mid, b.title as title');
 		$this->db->from(''.$this->_stories_categories.' as a ');
 		$this->db->join(''.$this->_modules.' as b', 'a.mid = b.mid', 'right');
@@ -287,6 +297,18 @@ class News_model extends CI_Model{
 		$this->db->where(' sid='.$id);
         $query = $this->db->get();
         $data = $query->result_array();
+        return $data;
+	}
+	
+	function getOne($id=0){
+		
+		
+		
+		$this->db->select('*');
+        $this->db->from(''.$this->_stories.'');
+		$this->db->where(' sid='.$id);
+        $query = $this->db->get();
+        $data = $query->row();
         return $data;
 	}
 	function deleteStories($id=0){
