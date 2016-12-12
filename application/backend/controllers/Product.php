@@ -384,6 +384,60 @@ class Product extends CI_Controller
 		}
   }
   
+  public function active_lock($cid){
+	  $input_data = array(
+	  	'active' => 1
+	  );
+	  if($this->Product_model->updateCategories($input_data,$cid))
+	  {
+		   redirect(base_url()."admin.php/product/categories");
+	  }
+  }
+  
+  public function unactive_lock($cid){
+	  $input_data = array(
+	  	'active' => 0
+	  );
+	  if($this->Product_model->updateCategories($input_data,$cid))
+	  {
+		   redirect(base_url()."admin.php/product/categories");
+	  }
+  }
+  
+  public function active_home($cid){
+	  $input_data = array(
+	  	'home' => 1
+	  );
+	  if($this->Product_model->updateCategories($input_data,$cid))
+	  {
+		   redirect(base_url()."admin.php/product/categories");
+	  }
+  }
+  
+  public function unactive_home($cid){
+	  $input_data = array(
+	  	'home' => 0
+	  );
+	  if($this->Product_model->updateCategories($input_data,$cid))
+	  {
+		   redirect(base_url()."admin.php/product/categories");
+	  }
+  }
+  
+  public function categories_weight_update()
+  {
+	  $weight 	= $this->input->post('search'); 
+	  $cid		= $this->input->post('cid');  
+	  $mva		= $this->input->post('mva'); 
+	  $input_data = array(
+	  	'weight' => $weight
+	  );
+	  if($this->Product_model->updateCategories($input_data,$cid))
+	  {
+		   redirect(base_url()."admin.php/product/categories");
+	  }
+  }
+  
   public function categories_delete()
   {
 	  	$mva = $this->uri->segment(3,0);

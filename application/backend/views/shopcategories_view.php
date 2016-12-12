@@ -24,7 +24,7 @@ echo'	<div class="panel-heading">
 			<tr>
 				<th>#</th>
 				<th>Title</th>
-				<th>Thứ tự</th>
+				<th width="8%">Thứ tự</th>
 				<th>Active</th>
 				<th>Home</th>
                 <th>Nội dung</th>
@@ -43,9 +43,32 @@ echo'	<div class="panel-heading">
 		echo'<tr>
 				<th scope="row">'.$i.'</th>
 				<td><b>'.$item['title'].'</b></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>
+					<!--thứ tự-->
+					<form action="'.base_url().'admin.php/Product/categories_weight_update" method="POST">
+					<div class="input-group">
+						<input type="text" name="search" class="form-control search-input" value="'.$item['weight'].'" placeholder=""><input type="hidden" name="cid" value="'.$item['cid'].'"><input type="hidden" name="mva" value="'.$item['mva'].'">
+					</div><!-- Input Group -->
+				</form><!-- Search Form -->
+				
+				</td>
+				<td>
+					<!--kích hoạt-->';
+					if($item["active"] == 0){ 
+					echo'<a href="'.base_url().'admin.php/Product/active_lock/'.$item["cid"].'"><i class="fa fa-lock"></i></a>';
+					}else{ 
+					echo'<a href="'.base_url().'admin.php/Product/unactive_lock/'.$item["cid"].'"><i class="fa fa-unlock"></i></a>';
+					}
+				echo'</td>
+				<td>
+					<!--Trang chủ-->';
+					if($item["home"] == 0){ 
+					echo'<a href="'.base_url().'admin.php/Product/active_home/'.$item["cid"].'"><i class="fa fa-lock"></i></a>';
+					}else{ 
+					echo'<a href="'.base_url().'admin.php/Product/unactive_home/'.$item["cid"].'"><i class="fa fa-unlock"></i></a>';
+					}
+				echo'
+				</td>
 				<td><button type="button" data-toggle="modal" data-target="#shop_category_edit'.$item['cid'].'"><i class="fa fa-edit"></i></button>
 					<!-- Modal -->
 					<div class="modal fade" id="shop_category_edit'.$item['cid'].'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
